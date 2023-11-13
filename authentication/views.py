@@ -27,7 +27,7 @@ class EmpList(generics.ListCreateAPIView):
     
     def get_queryset(self):
         user = self.request.user
-        return User.objects.filter(public_service_no=user.public_service_no)
+        return User.objects.filter(username=user.username)
     
     def create(self, request, *args, **kwargs):
         return Response({"message":"Unsupported Request or Method"},
@@ -82,7 +82,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         user = self.request.user
         queryset = User.objects.all() 
         if not (user.is_superuser):
-           queryset = queryset.filter(public_service_no = user.public_service_no) 
+           queryset = queryset.filter( username = user.username) 
         return queryset
      
     def put(self, request, *args, **kwargs):
@@ -97,7 +97,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         instance = self.get_object()       
         profile_picture = request.data.get('profile_picture', None)
         # Check if it is the same person or an authorized party, then proceed to make changes
-        if not (instance.public_service_no == user.public_service_no or user.is_superuser): 
+        if not (instance.username == user.username or user.is_superuser): 
             return Response({"message": "You are not authorized to perform this operation"}, 
                             status=status.HTTP_403_FORBIDDEN)
 
