@@ -12,6 +12,7 @@ from .serializers import (UserSerializer)
 from rest_framework_simplejwt.authentication import  JWTAuthentication
 from rest_framework.parsers import MultiPartParser
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated,DjangoModelPermissions, AllowAny,IsAdminUser
 
 
@@ -74,10 +75,15 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     parser_classes=(MultiPartParser,)
-    lookup_field = 'username'
+    lookup_field = 'pk'
     serializer_class = UserSerializer
     queryset = User.objects.all()
- 
+
+    def get(self, request, username ):
+        user = get_object_or_404(User, username=username)
+        return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
+
+    
     def put(self, request, *args, **kwargs):
         return Response({"message":"Unsupported Request or Method not Allowed"},
                          status=status.HTTP_405_METHOD_NOT_ALLOWED)
