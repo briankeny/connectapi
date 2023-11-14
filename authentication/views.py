@@ -80,9 +80,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = User.objects.all() 
-        queryset = queryset.filter( username = user.username) 
-        return queryset
+        return user
      
     def put(self, request, *args, **kwargs):
         return Response({"message":"Unsupported Request or Method not Allowed"},
