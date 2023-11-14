@@ -81,8 +81,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         queryset = User.objects.all() 
-        if not (user.is_superuser):
-           queryset = queryset.filter( username = user.username) 
+        queryset = queryset.filter( username = user.username) 
         return queryset
      
     def put(self, request, *args, **kwargs):
