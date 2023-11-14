@@ -77,28 +77,15 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'username'
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-    def get_queryset(self):
-        user = self.request.user
-        return user
-     
+ 
     def put(self, request, *args, **kwargs):
         return Response({"message":"Unsupported Request or Method not Allowed"},
                          status=status.HTTP_405_METHOD_NOT_ALLOWED)
     
     
     def patch(self, request, *args, **kwargs):
-        # Get the person making the request from the request body
-        user = self.request.user
-        # Get the person referred to in this instance
-        instance = self.get_object()       
         profile_picture = request.data.get('profile_picture', None)
-        # Check if it is the same person or an authorized party, then proceed to make changes
-        if not (instance.username == user.username or user.is_superuser): 
-            return Response({"message": "You are not authorized to perform this operation"}, 
-                            status=status.HTTP_403_FORBIDDEN)
 
-        
         # User  Changing The Profile Picture
         if profile_picture:
             # Delete the existing profile_picture if it exists
