@@ -74,7 +74,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     parser_classes=(MultiPartParser,)
-    lookup_field = 'pk'
+    lookup_field = 'username'
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
