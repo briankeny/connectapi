@@ -32,7 +32,6 @@ class PostList(generics.ListCreateAPIView):
         if search_term:
             try:
                 # Assuming 'search_term' should be an integer
-                search_term_int = int(search_term)
                 queryset = queryset.filter(owner=search_term_int)[:30]  # Limit results
             except ValueError:
                 queryset = []  # Set the queryset to an empty list if ValueError
