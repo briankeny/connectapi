@@ -14,5 +14,5 @@ urlpatterns = [
     # Users endpoints
     path('profile/', views.EmpList.as_view(), name='single-User-data'),
     path('Users/', views.UserList.as_view(), name='Users-list'),
-    path('User/<str:pk>/', views.UserDetail.as_view(), name='User-detail')
+    path('User/<username:pk>/', views.UserDetail.as_view(), name='User-detail')
 ]
